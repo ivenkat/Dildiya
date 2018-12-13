@@ -1,0 +1,16 @@
+{% block content %}
+    <div>
+        {% if client.bride_name %}
+            <div>
+                {{ client.bride_name }}
+            </div>
+        {% endif %}
+        {% if client.groom_name %}
+            <div>
+                {{ client.groom_name }}
+            </div>
+        {% endif %}
+        <a class="button" href="{% url 'client_edit' %}"><span class="glyphicon glyphicon-pencil"></span></a>
+        <h2>FANCY</h2>
+    </div>
+{% endblock %}
