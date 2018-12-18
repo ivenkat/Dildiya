@@ -1,0 +1,20 @@
+{% load socialaccount %}
+{% load crispy_forms_tags %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+<h1>Dildiya</h1>
+
+{% if user.is_authenticated %}
+<p>Welcome {{ user.username }} !!!</p>
+<p><a href="{% url 'client_new' %}" class="top-menu">Create Profile<span class="glyphicon glyphicon-plus"></span></a></p>
+<p><a href="{% url 'account_logout' %}">Log out</a>
+{% else %}
+<p><a href="{% url 'account_signup' %}">Sign Up</a></p>
+<p><a href="{% url 'account_login' %}">Log In </a></p>
+<p><a href="{% provider_login_url 'google' %}">Log In with Gmail</a></p>
+{% endif %}
+
