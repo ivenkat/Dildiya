@@ -13,8 +13,7 @@ class HomePageView(TemplateView):
     template_name = 'pages/home.html'
 
 def index(request):
-    return render_to_response("pages/index.html",
-                              RequestContext(request))
+    return render_to_response("pages/index.html", RequestContext(request))
 
 def client_detail(request):
     client = Client.objects.filter(logged_in_user=request.user)[0]
@@ -22,6 +21,7 @@ def client_detail(request):
     return render(request, "pages/client_detail.html", {'client':client})
 
 def client_new(request):
+    print("DLFKJSDLFKJSD:LFKJDSLFKJ")
     if request.method == "POST":
         form = ClientForm(request.POST)
         current_user = request.user
@@ -37,6 +37,7 @@ def client_new(request):
 
 
 def client_edit(request):
+    print("DLFKJSDLFKJSD:LFKJDSLFKJ")
     client = get_object_or_404(Client)
     if request.method == "POST":
         form = ClientForm(request.POST, instance=post)
@@ -50,7 +51,8 @@ def client_edit(request):
             return redirect('client_detail')
     else:
         form = ClientForm()
-
+    
+    form = ClientForm(request.POST, instance=post)
     form.field['bride_name'].initial = client.bride_name
     form.field['groom_name'].initial = client.groom_name
     form.field['address'].initial = client.address

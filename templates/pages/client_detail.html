@@ -1,7 +1,8 @@
+{% load static %}
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-<link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" type="text/css" href='/static/css/client_detail.css'/>
 
 {% block content %}
   <h2>Here are your client details</h2>
@@ -24,15 +25,25 @@
         {{ client.phone_number }}
       </div>
     {% endif %}
-      <div>
-        Address:
-        {{ client.address }}
-      </div>
-      <div>
-        Email:
-        {{ client.logged_in_user.email }}
-      </div>
+    <div>
+      Address:
+      {{ client.address }}
+    </div>
+    <div>
+      Email:
+      {{ client.logged_in_user.email }}
+    </div>
+    <div>
+      Backgrounds selected:
+      {{ client.background }}
+    </div>
+    
+    <a class="button" href="{% url 'client_edit' %}">
+        Edit Client Details
+    <span class="glyphicon glyphicon-pencil"></span></a>
 
-    <a class="button" href="{% url 'client_edit' %}"> Edit Client Details <span class="glyphicon glyphicon-pencil"></span></a>
+    <p><a href="{% url 'background' %}" class="top-menu" > Continue
+        <i class="material-icons" data-md-tooltip=
+        "\bWhy do we need this info? \nAt Dildiya, we’ve mastered the art marriage across various cultures. Identifying your cultural background allows for us to better serve you in your planning process. This helps us help you, and don’t worry, we won’t sell your data.">help</i>
   </div>
 {% endblock %}

@@ -13,6 +13,12 @@ class VendorTypes(Enum): # A subclass of Enum
   CA = "Caterer"
   BA = "Bartender"
 
+class Background(models.Model):
+  culture = models.CharField(max_length=300)
+
+  def __str__(self):
+    return '%s' % (self.culture)
+
 class Client(models.Model):
   logged_in_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
   bride_name = models.CharField(max_length=200, null = True)
@@ -20,6 +26,7 @@ class Client(models.Model):
   phone_number = PhoneNumberField(null=True, blank=True)
   address = models.CharField(max_length=200, null=True, blank=True)
   wedding = models.ForeignKey('Wedding', on_delete=models.CASCADE, null = True)
+  background = models.ManyToManyField(Background)
 
   def __str__(self):
     return '%s %s %s' % (self.bride_name, self.groom_name, self.logged_in_user.email)
