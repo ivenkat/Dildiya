@@ -14,23 +14,15 @@ class VendorTypes(Enum):   # A subclass of Enum
     BA = "Bartender"
 
 class Client(models.Model):
-    client_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    bride_name = models.CharField(max_length=200, null = True)
-    groom_name = models.CharField(max_length=200, null = True)
-    phone_number = PhoneNumberField(null=True, unique=True)
+    logged_in_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    bride_name = models.CharField(max_length=200, null = True, blank = True)
+    groom_name = models.CharField(max_length=200, null = True, blank = True)
+    phone_number = PhoneNumberField(null=True, blank = True)
     wedding = models.ForeignKey('Wedding', on_delete=models.CASCADE, null = True)
+    address = models.CharField(max_length=200, null = True, blank = True)
 
     def __str__(self):
-        return '%s %s %s' % (self.bride_name, self.groom_name, self.client_id.email)
-
-    # Want to make sure theres only one instance of Client - once Client can have one wedding
-    # and one logged in user can only create one profile. Once they do it should always update
-    # from existing data
-    def save(self, *args, **kwargs):
-        #if Client.objects.exists() and not self.pk:
-        # if you don't check for pk, then error will also raised in update of exists model
-            #raise forms.ValidationError('There is can be only one Client instance')
-            return super(Client, self).save(*args, **kwargs)
+        return '%s %s %s' % (self.bride_name, self.groom_name, self.logged_in_user.email)
 
     def has_completed_profile(self):
         # if the user has a completed profile, then they can move on to the next set of questions

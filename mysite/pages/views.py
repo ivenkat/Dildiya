@@ -17,7 +17,7 @@ def index(request):
                               RequestContext(request))
 
 def client_detail(request):
-    client = Client.objects.filter(client_id=request.user)[0]
+    client = Client.objects.filter(logged_in_user=request.user)[0]
     print(client)
     return render(request, "pages/client_detail.html", {'client':client})
 
@@ -28,7 +28,7 @@ def client_new(request):
         print("USER ID:" + str(current_user.id))
         if form.is_valid() & current_user.is_authenticated:
             client = form.save(commit=False)
-            client.client_id = current_user
+            client.logged_in_user = current_user
             client.save()
             return redirect('client_detail')
     else:
@@ -41,10 +41,18 @@ def client_edit(request):
     if request.method == "POST":
         form = ClientForm(request.POST, instance=post)
         if form.is_valid():
-            client = form.save(commit=False)
-            client.client_id = current_user
+            client.bride_name = form.cleaned_data['bride_name']
+            client.groom_name = form.cleaned_data['groom_name']
+            client.address = form.cleaned_data['address']
+            client.phone_number = form.cleaned_data['phone_number']
+            client.logged_in_user = current_user
             client.save()
             return redirect('client_detail')
     else:
         form = ClientForm()
+
+    form.field['bride_name'].initial = client.bride_name
+    form.field['groom_name'].initial = client.groom_name
+    form.field['address'].initial = client.address
+    form.field['phone_number'].initial = client.phone_number
     return render(request, "pages/client_edit.html", {'form': form})
