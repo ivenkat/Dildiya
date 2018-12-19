@@ -35,8 +35,12 @@
     </div>
     <div>
       Backgrounds selected:
-      {{ client.background }}
     </div>
+    <ul>
+      {% for background in client.background %}
+        <li> {{ background }}  </li>
+      {% endfor %}
+    </ul>
     
     <a class="button" href="{% url 'client_edit' %}">
         Edit Client Details

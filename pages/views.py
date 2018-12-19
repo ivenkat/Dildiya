@@ -26,14 +26,11 @@ def client_new(request):
     if form.is_valid() & current_user.is_authenticated:
       client = form.save(commit=False)
       client.logged_in_user = current_user
-      print('INSIDE NEW CLIENT - LOGGED IN USER: + %s' % client.logged_in_user)
-      print('INSIDE NEW CLIENT - CLIEnT: + %s' % client)
       client.save()
       return redirect('client_detail')
   else:
     form = ClientForm()
     
-  print ("FORM FORM: %s" % form)
   return render(request, "pages/client_edit.html", {'form': form})
 
 # Editing an old client. If no client was found, a 404 error will be returned. If a client was found
@@ -65,14 +62,21 @@ def client_edit(request):
 def client_background(request):
   current_user = request.user
   client = get_object_or_404(Client, logged_in_user=current_user)
+  print ("CLIENT: %s" % client)
+  print ("LOGGED IN USER: %s" % client.logged_in_user)
   if request.method == "POST":
     form = BackgroundDetailsForm(request.POST)
     if form.is_valid() & current_user.is_authenticated:
+      client.background = form.cleaned_data['background']
       client.save()
       return redirect('client_detail')
   else:
-    form = BackgroundDetailsForm()
+    form = BackgroundDetailsForm(initial={
+    'background': client.background
+  })
     
   print ("FORM FORM: %s" % form)
+  print ("BACKGOROUND: %s" % client.background)
+  form.fields['background'].initial = client.background
   return render(request, "pages/client_edit.html", {'form': form})
 

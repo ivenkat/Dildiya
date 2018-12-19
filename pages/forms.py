@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Client, Background
+from .models import Client
 from django.forms.widgets import CheckboxSelectMultiple
 
 class ClientForm(forms.ModelForm):
@@ -16,13 +16,3 @@ class BackgroundDetailsForm(forms.ModelForm):
   class Meta:
     model = Client
     fields = ('background',)
-
-  def __init__(self, *args, **kwargs):
-        
-    super(BackgroundDetailsForm, self).__init__(*args, **kwargs)
-    Background.objects.bulk_create([
-    	Background(culture="Tamil"),
-    	Background(culture="Gujurati")])
-        
-    self.fields["background"].widget = CheckboxSelectMultiple()
-    self.fields["background"].queryset = Background.objects.all()
